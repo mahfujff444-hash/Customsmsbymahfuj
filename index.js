@@ -1,50 +1,65 @@
 const form = document.getElementById('smsForm');
 const statusDiv = document.getElementById('status');
+const sendBtn = document.getElementById('sendBtn');
+const phoneInput = document.getElementById('phone');
+const messageInput = document.getElementById('message');
+
+let currentProvider = 'api1';
+
+// API Box Selection
+document.querySelectorAll('.api-box').forEach(box => {
+    box.addEventListener('click', () => {
+        document.querySelectorAll('.api-box').forEach(b => b.classList.remove('active'));
+        box.classList.add('active');
+        currentProvider = box.dataset.provider;
+    });
+});
 
 form.addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    const provider = document.getElementById('provider').value;
-    const phone = document.getElementById('phone').value.trim();
-    const message = document.getElementById('message').value.trim();
+    const phone = phoneInput.value.trim();
+    const message = messageInput.value.trim();
 
     if (!phone || !message) {
         showStatus('ফোন নম্বর ও মেসেজ দিতে হবে!', 'error');
         return;
     }
 
-    showStatus('পাঠানো হচ্ছে...', 'info');
+    sendBtn.disabled = true;
+    sendBtn.innerHTML = 'পাঠানো হচ্ছে... ⏳';
 
     let url = '';
 
-    if (provider === 'api1') {
+    if (currentProvider === 'api1') {
         url = `https://devbd.my.id/sms.php?key=AM–MRXRPSh2PU&number=${encodeURIComponent(phone)}&msg=${encodeURIComponent(message)}`;
     } else {
         url = `https://darktube.serv00.net/api?api_key=SMS_6079418217_ec2b63e94e054c563b3eaabdc39246ab&number=${encodeURIComponent(phone)}&message=${encodeURIComponent(message)}`;
     }
 
     try {
-        const response = await fetch(url, { 
-            method: 'GET',
-            mode: 'no-cors'  // CORS সমস্যা এড়ানোর জন্য
-        });
-
-        showStatus('✅ SMS পাঠানোর অনুরোধ পাঠানো হয়েছে!', 'success');
+        await fetch(url, { method: 'GET', mode: 'no-cors' });
         
-        // লগ দেখার জন্য কনসোলে
-        console.log('SMS Request Sent to:', provider);
+        showStatus('✅ SMS সফলভাবে পাঠানো হয়েছে!', 'success');
+        
+        // Auto clear message after success
+        setTimeout(() => {
+            messageInput.value = '';
+        }, 1500);
 
     } catch (err) {
-        showStatus('❌ সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
-        console.error(err);
+        showStatus('❌ সমস্যা হয়েছে। আবার চেষ্টা করুন।', 'error');
+    } finally {
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = '🚀 SMS পাঠান';
     }
 });
 
 function showStatus(msg, type) {
-    let colorClass = '';
-    if (type === 'success') colorClass = 'success';
-    else if (type === 'error') colorClass = 'error';
-    else colorClass = 'info';
-
-    statusDiv.innerHTML = `<div class="${colorClass}">${msg}</div>`;
+    statusDiv.innerHTML = `<div class="${type}">${msg}</div>`;
+    
+    // Auto hide status after 4 seconds
+    setTimeout(() => {
+        statusDiv.innerHTML = '';
+    }, 4000);
 }
