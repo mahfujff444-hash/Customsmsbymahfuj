@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAHFUJ CUSTOM SMS</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 620px;
+            margin: auto;
+            background: white;
+            padding: 40px 30px;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 35px;
+            font-size: 29px;
+            font-weight: 700;
+        }
+        .api-select {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+        .api-box {
+            flex: 1;
+            padding: 22px 15px;
+            border: 3px solid #e0e0e0;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            background: #f8f9fa;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .api-box.active {
+            border-color: #28a745;
+            background: linear-gradient(135deg, #e8f5e9, #d4edda);
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
+        }
+        .api-box strong {
+            font-size: 17px;
+            color: #2c3e50;
+            display: block;
+        }
+        label { 
+            display: block; 
+            margin: 18px 0 8px; 
+            font-weight: 600; 
+            color: #34495e; 
+            font-size: 16px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        input:focus, textarea:focus {
+            border-color: #28a745;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.3s;
+        }
+        button:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 20px rgba(40, 167, 69, 0.4);
+        }
+        button:disabled { 
+            background: #95a5a6; 
+            cursor: not-allowed; 
+            transform: none;
+        }
+
+        .success { 
+            color: #155724; 
+            background: #d4edda; 
+            padding: 18px; 
+            border-radius: 15px; 
+            text-align: center;
+            font-weight: 500;
+            animation: successPop 0.6s ease;
+        }
+        @keyframes successPop {
+            0% { transform: scale(0.7); opacity: 0; }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 MAHFUJ CUSTOM SMS</h1>
+        
+        <div id="status"></div>
+
+        <form id="smsForm">
+            <label>প্রোভাইডার নির্বাচন করুন:</label>
+            <div class="api-select">
+                <div class="api-box active" data-provider="api1" id="box1">
+                    <strong>015XXXXXXXX</strong>
+                </div>
+                <div class="api-box" data-provider="api2" id="box2">
+                    <strong>EnsureGroup</strong>
+                </div>
+            </div>
+
+            <label>ফোন নম্বর:</label>
+            <input type="text" id="phone" placeholder="01866184669" required>
+
+            <label>মেসেজ লিখুন:</label>
+            <textarea id="message" rows="5" placeholder="আপনার মেসেজ এখানে লিখুন..." required></textarea>
+
+            <button type="submit" id="sendBtn">🚀 SMS পাঠান</button>
+        </form>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html>
